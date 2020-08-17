@@ -49,6 +49,29 @@ void Log::lineText(std::string s)
 
 }
 
+/*
+Function Name: Log::centerText
+Description:  Prints the given string in the middle of a line with.
+*/
+void Log::centerText(std::string s)
+{
+	//Local Variables
+	int numSpaces = (LINE_LENGTH - s.length()) / 2; //Number of spaces to print on before the given string
+
+	//Print the spaces before the text
+	for (int i = 0; i < numSpaces; i++)
+	{
+		std::cout << " ";
+	}
+
+	//Print the text in the center
+	std::cout << s << std::endl;
+}
+
+/*
+Function Name: Log::header
+Description: Clears screen and outputs header with the given string centered in the border.
+*/
 void Log::header(std::string s)
 {
 	system("CLS");
@@ -57,9 +80,56 @@ void Log::header(std::string s)
 	line();
 }
 
+
+/*
+Function Name: Log::promptRow
+Description: Prompt user to enter desired row
+*/
+int Log::promptRow()
+{
+	std::string response = "";
+	
+
+	while (!isValidRowCol(response))
+	{
+		std::cout << "Please enter Row (1-3): " << std::endl;
+		std::getline(std::cin, response);
+	}
+
+	return response[0];
+}
+
+/*
+Function Name: Log::promptCol
+Description: Prompt user to enter desired col
+*/
+int Log::promptCol()
+{
+	return 0;
+}
+
+/*
+Function Name: Log::TextColor
+Description: Simplifies changing the text color send to output
+*/
 void Log::TextColor(int color)
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
+
+/*
+Function Name: Log::isValidRowCol
+Description: Checks if the given string is a valid row or column input.
+*/
+bool Log::isValidRowCol(std::string s)
+{
+	if (s.length() != 1) return false;
+
+	char c = s[0];
+
+	if (c < 49 || c > 51) return false;
+
+	return true;
 }
 
 /*
@@ -134,7 +204,42 @@ Description: Handles the text based output for the two player mode UI
 */
 void Log::twoPlayerMode()
 {
+	GameBoard board = GameBoard();
+	std::vector<Player> player = { Player("Player X", 'X'), Player("Player O", 'O') };
+	bool continueGame = true;
+	int i = 0;
+
 	twoPlayerWelcome();
+
+	while (continueGame) {
+		
+		
+		std::string row = "";
+		std::string col = "";
+
+		while (!board.placeMarker(player[i].getMarker(), row, col))
+		{
+			header(player[i].getName());
+			board.print();
+			std::cout << "Please enter Row (1-3): ";
+			std::getline(std::cin, row);
+			std::cout << "\nPlease enter Column (1-3): ";
+			std::getline(std::cin, col);
+
+		}
+		
+		header(player[i].getName());
+		board.print();
+		std::cout << "Please enter Row (1-3): " << row;
+		std::cout << "\nPlease enter Column (1-3): " << col << std::endl;
+		i = (i == 0) ? 1 : 0;
+		pause(player[i].getName() + "'s turn next.  Press any key to continue...");
+	}
+
+	//TODO Check for win
+	//TODO Keep win counts for each player
+	//TODO Exit Game
+
 }
 
 /*
@@ -158,26 +263,30 @@ void Log::twoPlayerWelcome()
 	GameBoard b = GameBoard();
 
 	std::cout << "For example: \n\n";
-	b.printBoard();
+	b.print();
 	std::cout << "If Player X would like to place the first marker in the upper left corner\n";
 	std::cout << "then Player X would enter '1' for the row and '1' for the column.  Then\n";
 	std::cout << "a 'X' marker will appear as follows: \n\n";
 	b.placeMarker('X', "1", "1");
-	b.printBoard();
+	b.print();
 	system("PAUSE");
 
 	header("Two Player Mode");
 	std::cout << "If Player X would instead like to place the first marker in the second row\n";
 	std::cout << "and first column, then Player X would enter '2' for the row and '1' for\n";
 	std::cout << "column.  Then a 'X' marker will aperar as follows: \n\n";
-	b.clearBoard();
+	b.clear();
 	b.placeMarker('X', "2", "1");
-	b.printBoard();
+	b.print();
 	pause("Press any key to begin game...");
 
-
+	b.~GameBoard();
 }
 
+/*
+Function Name: Log::exitScreen
+Description: This screen handles user requests to terminate the program.
+*/
 bool Log::exitScreen()
 {
 	std::string choice = "";
@@ -204,8 +313,13 @@ bool Log::exitScreen()
 	if (choice == "Y" || choice == "y") return false;
 }
 
+/*
+Function Name: Log::pause
+Description: Used to pause the program with a custom message
+*/
 void Log::pause(std::string s)
 {
 	std::cout << s << std::endl;
 	char c = _getch();
 }
+

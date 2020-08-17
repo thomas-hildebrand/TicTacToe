@@ -1,6 +1,6 @@
 #include "Board.h"
 
-void GameBoard::printBoard()
+void GameBoard::print()
 {
 	
 	for (int i = 0; i < board.size(); i++)
@@ -26,17 +26,17 @@ void GameBoard::printBoard()
 }
 
 /*
-Function Name: GameBoard::clearBoard
+Function Name: GameBoard::clear
 Description: Clears the board of all player markers.
 */
-void GameBoard::clearBoard()
+void GameBoard::clear()
 {
 	board = { { ' ', ' ', ' ' } , { ' ', ' ', ' ' } , { ' ', ' ', ' ' } };
 }
 
 /*
 Function Name: GameBoard::placeMarker
-Description:  If possible set the 
+Description:  If possible place the marker on the game board at the given row and col
 */
 bool GameBoard::placeMarker(char marker, std::string row, std::string col)
 {

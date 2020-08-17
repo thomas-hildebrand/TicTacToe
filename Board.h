@@ -13,8 +13,9 @@ class GameBoard {
 	bool isValidPos(std::string row, std::string col);
 public:
 	GameBoard() : board ({ { ' ', ' ', ' ' } , { ' ', ' ', ' ' } , { ' ', ' ', ' ' } }) {}
-	void printBoard();
-	void clearBoard();
+	void print();
+	void clear();
 	bool placeMarker(char marker, std::string row, std::string col);
+
 	
 };

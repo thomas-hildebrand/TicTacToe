@@ -12,6 +12,7 @@ Description: Log class will be used for messages for the user as well as the tex
 #include <string>
 #include <conio.h>
 #include "Board.h"
+#include "Player.h"
 
 class Log {
 	const int LINE_LENGTH = 74;
@@ -20,13 +21,18 @@ class Log {
 	const int TEXT_COLOR_CYAN = 3;
 	const int TEXT_COLOR_RED = 4;
 	const int TEXT_COLOR_WHITE = 7;
+	const int INTEGER_OFFSET = 48;
 	
 	void line();
 	void lineText(std::string s);
-	void header(std::string s);
+	void centerText(std::string s);
 	void TextColor(int color);
-
+	bool isValidRowCol(std::string s);
 	bool validateOption(std::string s);
+	void header(std::string s);
+	int promptRow();
+	int promptCol();
+
 
 public:
 	bool menuScreen();
