@@ -86,13 +86,17 @@ bool GameBoard::hasWinner(int row, int col)
 	//Check Down
 	if (board[++r % 3][col] == marker && board[++r % 3][col] == marker) return true;
 
-	//Check Diagonal if applicable
+	//Check Diagonal if Corner position
+	if (row != 1 && col != 1)
+	{
+		row = (row == 0) ? 2 : 0;
+		col = (col == 0) ? 2 : 0;
 
-		//Check if marker was placed in a corner
+		if (board[1][1] == marker && board[row][col] == marker) return true;
+	}
 
-		//Check if marker was placed in middle
-
-
+	//Check Diagonals if Middle position
+	if ((row == 1 && col == 1) && ((board[0][0] == marker && board[2][2] == marker) || (board[0][2] == marker && board[2][0] == marker))) return true;
 
 	return false;
 }

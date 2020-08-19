@@ -237,23 +237,23 @@ void Log::twoPlayerMode()
 		board.print();
 		std::cout << "Please enter Row (1-3): " << row;
 		std::cout << "\nPlease enter Column (1-3): " << col << std::endl;
-		i = (i == 0) ? 1 : 0;
 		
 		//Check for win
 		if (board.hasWinner(row[0] - INTEGER_OFFSET - 1, col[0] - INTEGER_OFFSET - 1))
 		{
-			std::cout << player[i].getName() << " has won this round!";
+			centerText(player[i].getName() + " has won this round!");
 			pause("Press any key to return to menu...");
 			return;
 		}
 		
 		//No winner, continue game
+		i = (i == 0) ? 1 : 0;
 		pause(player[i].getName() + "'s turn next.  Press any key to continue...");
 
 		continueGame++;
 	}
 
-	pause("No more moves are possilbe.  The game ends in a TIE!");
+	pause("No more moves are possilbe.  The game ends in a TIE!\n\nPress any key to continue...");
 
 }
 
