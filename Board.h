@@ -16,6 +16,8 @@ public:
 	void print();
 	void clear();
 	bool placeMarker(char marker, std::string row, std::string col);
+	bool hasWinner(int row, int col);
+
 
 	
 };

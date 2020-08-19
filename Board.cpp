@@ -68,5 +68,34 @@ bool GameBoard::isValidPos(std::string row, std::string col)
 	return true;
 }
 
+/*
+Function Name: GameBoard::hasWinner
+Description: Checks if a win has occurred.
+*/
+bool GameBoard::hasWinner(int row, int col)
+{
+	//Get Marker
+	char marker = board[row][col];
+
+	int r = row;
+	int c = col;
+
+	//Check Across
+	if (board[row][++c % 3] == marker && board[row][++c % 3] == marker) return true;
+
+	//Check Down
+	if (board[++r % 3][col] == marker && board[++r % 3][col] == marker) return true;
+
+	//Check Diagonal if applicable
+
+		//Check if marker was placed in a corner
+
+		//Check if marker was placed in middle
+
+
+
+	return false;
+}
+
 
 

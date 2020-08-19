@@ -164,7 +164,7 @@ bool Log::menuScreen()
 
 		//Print menu options
 		std::cout << "1. 1 - Player Game (NOT YET IMPLEMENTED)" << std::endl;
-		std::cout << "2. 2 - Player Game (WORK IN PROGRESS)" << std::endl;
+		std::cout << "2. 2 - Player Game" << std::endl;
 		std::cout << "3. Exit" << std::endl;
 
 		//Prompt user input, if previously invalid choice was made prompt again
@@ -223,7 +223,7 @@ void Log::twoPlayerMode()
 			board.print();
 			std::cout << "Please enter Row (1-3): ";
 			std::getline(std::cin, row);
-			std::cout << "\nPlease enter Column (1-3): ";
+			std::cout << "Please enter Column (1-3): ";
 			std::getline(std::cin, col);
 
 		}
@@ -233,10 +233,16 @@ void Log::twoPlayerMode()
 		std::cout << "Please enter Row (1-3): " << row;
 		std::cout << "\nPlease enter Column (1-3): " << col << std::endl;
 		i = (i == 0) ? 1 : 0;
+		//TODO Check for win
+		if (board.hasWinner(row[0] - INTEGER_OFFSET - 1, col[0] - INTEGER_OFFSET - 1))
+		{
+			std::cout << player[i].getName() << " has won this round!";
+			pause("Press any key to return to menu...");
+			return;
+		}
 		pause(player[i].getName() + "'s turn next.  Press any key to continue...");
 	}
 
-	//TODO Check for win
 	//TODO Keep win counts for each player
 	//TODO Exit Game
 
