@@ -22,6 +22,7 @@ class Log {
 	const int TEXT_COLOR_RED = 4;
 	const int TEXT_COLOR_WHITE = 7;
 	const int INTEGER_OFFSET = 48;
+	const int MAXIMUM_TURNS = 9;
 	
 	void line();
 	void lineText(std::string s);

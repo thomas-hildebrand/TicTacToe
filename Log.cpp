@@ -204,19 +204,23 @@ Description: Handles the text based output for the two player mode UI
 */
 void Log::twoPlayerMode()
 {
+	//Local Variables
 	GameBoard board = GameBoard();
 	std::vector<Player> player = { Player("Player X", 'X'), Player("Player O", 'O') };
-	bool continueGame = true;
+	int continueGame = 0;
 	int i = 0;
 
+	//Print Welcome / Game Explanation
 	twoPlayerWelcome();
 
-	while (continueGame) {
+	//Game Loop
+	while (continueGame < MAXIMUM_TURNS) {
 		
 		
 		std::string row = "";
 		std::string col = "";
 
+		//Get row and column from user and place marker
 		while (!board.placeMarker(player[i].getMarker(), row, col))
 		{
 			header(player[i].getName());
@@ -228,23 +232,28 @@ void Log::twoPlayerMode()
 
 		}
 		
+		//Show marker placed
 		header(player[i].getName());
 		board.print();
 		std::cout << "Please enter Row (1-3): " << row;
 		std::cout << "\nPlease enter Column (1-3): " << col << std::endl;
 		i = (i == 0) ? 1 : 0;
-		//TODO Check for win
+		
+		//Check for win
 		if (board.hasWinner(row[0] - INTEGER_OFFSET - 1, col[0] - INTEGER_OFFSET - 1))
 		{
 			std::cout << player[i].getName() << " has won this round!";
 			pause("Press any key to return to menu...");
 			return;
 		}
+		
+		//No winner, continue game
 		pause(player[i].getName() + "'s turn next.  Press any key to continue...");
+
+		continueGame++;
 	}
 
-	//TODO Keep win counts for each player
-	//TODO Exit Game
+	pause("No more moves are possilbe.  The game ends in a TIE!");
 
 }
 
@@ -256,7 +265,7 @@ Description: This is the inital starting screen for two player mode that will we
 void Log::twoPlayerWelcome()
 {
 	header("Two Player Mode");
-
+	centerText("Welcome to two player mode!");
 	std::cout << "Welcome to two player mode!  In this mode two players will compete\n";
 	std::cout << "against each other in a turn based fashion.\n";
 	std::cout << "Player X will go first by first entering the row number, second the\n";
