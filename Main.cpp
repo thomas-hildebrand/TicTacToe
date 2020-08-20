@@ -11,7 +11,8 @@ Description: Simple console based Tic Tac Toe game between two players.
 bool shouldContinue = true;
 
 /*
-
+Function Name: setWindow
+Description: Sets custom window attributes
 */
 void setWindow()
 {
@@ -20,6 +21,7 @@ void setWindow()
 	RECT ConsoleRect;
 	GetWindowRect(console, &ConsoleRect);
 	MoveWindow(console, ConsoleRect.left, ConsoleRect.top, 625, 400, TRUE); //Sets Window Size
+	SetConsoleTitle(TEXT("Tic Tac Toe")); // Sets Title on Console Window
 }
 
 int main()
@@ -33,7 +35,5 @@ int main()
 	while (shouldContinue)
 	{
 		shouldContinue = log.menuScreen();
-
-
 	}
 }

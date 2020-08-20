@@ -68,6 +68,32 @@ void Log::centerText(std::string s)
 	std::cout << s << std::endl;
 }
 
+void Log::paragraph(std::string s)
+{
+	std::vector<std::string> words = parseWords(s);
+	int linePosition = 0;
+
+	for (int i = 0; i < words.size(); i++)
+	{
+		if (linePosition + words[i].length() - 1 >= LINE_LENGTH)
+		{
+			std::cout << "\n";
+			linePosition = 0;
+		}
+
+		std::cout << words[i];
+		linePosition += words[i].length();
+		if (linePosition >= LINE_LENGTH)
+		{
+			linePosition = 0;
+			continue;
+		}
+
+		std::cout << " ";
+		linePosition++;
+	}
+}
+
 /*
 Function Name: Log::header
 Description: Clears screen and outputs header with the given string centered in the border.
@@ -115,6 +141,49 @@ Description: Simplifies changing the text color send to output
 void Log::TextColor(int color)
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
+
+/*
+Function Name: Log::printNewLines
+Description: Prints the given number of new line chars to output.
+*/
+void Log::printNewLines(int numLines)
+{
+	for (int i = 0; i < numLines; i++)
+	{
+		std::cout << "\n";
+	}
+}
+
+/*
+Function Name: Log::parseWords
+Description: Parses words from given string and returns them in a vector of strings
+*/
+
+std::vector<std::string> Log::parseWords(std::string s)
+{
+	std::vector<std::string> words = std::vector<std::string>();
+	int start = 0;
+
+	for (int i = 0; i < s.length(); i++)
+	{
+		if (s[i] == ' ' || i == s.length() - 1)
+		{
+			if (i == s.length() - 1) i++;
+			std::string newWord = "";
+
+			for (int j = start; j < i; j++)
+			{
+				newWord += s[j];
+			}
+
+			words.push_back(newWord);
+			start = i + 1;
+		}
+
+	}
+
+	return words;
 }
 
 /*
@@ -193,9 +262,10 @@ bool Log::menuScreen()
 void Log::onePlayerScreen()
 {
 	header("One Player Mode");
-	
-	std::cout << "This feature has not yet been implemented. \nPlease press any key to return to the main menu.\n";
-	system("PAUSE");
+	std::cout << std::endl;
+	centerText("This feature has not yet been implemented.");
+	std::cout << std::endl;
+	pause("Please press any key to return to the main menu...");
 }
 
 /*
@@ -264,14 +334,15 @@ Description: This is the inital starting screen for two player mode that will we
 */
 void Log::twoPlayerWelcome()
 {
+	std::string para1 = "In this mode two players will compete against each other in a turn based fashion. "
+		"Player X will go first by first entering the row number, second the column number, of an empty "
+		"position on the game board.  A 'X' marker will than be placed on the game board at that position.";
+
 	header("Two Player Mode");
-	centerText("Welcome to two player mode!");
-	std::cout << "Welcome to two player mode!  In this mode two players will compete\n";
-	std::cout << "against each other in a turn based fashion.\n";
-	std::cout << "Player X will go first by first entering the row number, second the\n";
-	std::cout << "column number, of an empty position on the game board.  A 'X' marker will\n";
-	std::cout << "than be placed on the game board at that position.\n";
-	std::cout << "\n";
+	printNewLines(1);
+	centerText("Welcome to two player mode!\n");
+	paragraph(para1);
+	printNewLines(12);
 	system("PAUSE");
 
 	header("Two Player Mode");
@@ -293,6 +364,7 @@ void Log::twoPlayerWelcome()
 	b.clear();
 	b.placeMarker('X', "2", "1");
 	b.print();
+	printNewLines(8);
 	pause("Press any key to begin game...");
 
 	b.~GameBoard();
@@ -309,8 +381,9 @@ bool Log::exitScreen()
 
 	while (choice != "Y" && choice != "y" && choice != "N" && choice != "n") {
 		header("Exit Program");
-
-		std::cout << "Are you sure you wish to exit?\n\n"; 
+		std::cout << std::endl;
+		centerText("Are you sure you wish to exit?\n");
+		
 		if (invalidchoice) {
 			TextColor(TEXT_COLOR_RED);
 			std::cout << "Invalid Choice! Please Choose again!" << std::endl;
@@ -334,7 +407,7 @@ Description: Used to pause the program with a custom message
 */
 void Log::pause(std::string s)
 {
-	std::cout << s << std::endl;
+	std::cout << s;
 	char c = _getch();
 }
 

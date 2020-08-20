@@ -11,6 +11,7 @@ Description: Log class will be used for messages for the user as well as the tex
 #include <windows.h>
 #include <string>
 #include <conio.h>
+#include <vector>
 #include "Board.h"
 #include "Player.h"
 
@@ -27,7 +28,10 @@ class Log {
 	void line();
 	void lineText(std::string s);
 	void centerText(std::string s);
+	void paragraph(std::string s);
 	void TextColor(int color);
+	void printNewLines(int numLines);
+	std::vector<std::string> parseWords(std::string s);
 	bool isValidRowCol(std::string s);
 	bool validateOption(std::string s);
 	void header(std::string s);
